@@ -60,3 +60,5 @@ export interface ContrastResult {
 }
 
 export type SupportedLanguage = 'cpp' | 'html' | 'javascript' | 'python' | 'rust' | 'go' | 'nix';
+
+export type PreviewTab = SupportedLanguage | 'terminal' | 'shell';
