@@ -38,5 +38,6 @@ export const defaultAppState: AppState = {
   mode: 'manual',
   colors: defaultColorScheme,
   globalFilters: defaultGlobalFilters,
+  filtersEnabled: true,
   metadata: defaultMetadata,
 };

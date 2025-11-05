@@ -63,6 +63,11 @@ export function encodeToURL(state: AppState): string {
       params.set('lc', state.globalFilters.lightnessCurve.toString());
     }
 
+    // Add filters enabled state if disabled
+    if (!state.filtersEnabled) {
+      params.set('fe', '0');
+    }
+
     // Add metadata if provided
     if (state.metadata.name !== 'My Color Scheme') {
       params.set('name', state.metadata.name);
@@ -115,6 +120,7 @@ export function decodeFromURL(hash: string): AppState | null {
     const hueShift = parseFloat(params.get('hs') || '0');
     const saturationScale = parseFloat(params.get('ss') || '1');
     const lightnessCurve = parseFloat(params.get('lc') || '0');
+    const filtersEnabled = params.get('fe') !== '0'; // Defaults to true unless explicitly '0'
     const name = params.get('name') || 'My Color Scheme';
     const author = params.get('author') || 'Anonymous';
 
@@ -126,6 +132,7 @@ export function decodeFromURL(hash: string): AppState | null {
         saturationScale,
         lightnessCurve,
       },
+      filtersEnabled,
       metadata: {
         name,
         author,

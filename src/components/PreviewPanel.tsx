@@ -7,16 +7,16 @@ interface PreviewPanelProps {
 
 export function PreviewPanel({ colors }: PreviewPanelProps) {
   return (
-    <div className="h-full overflow-y-auto p-4 bg-gray-900 space-y-6">
+    <div className="h-full overflow-y-auto p-4 bg-neutral-900 space-y-6">
       {/* Preview */}
       <div>
-        <h2 className="text-sm font-semibold text-gray-300 mb-2">Preview</h2>
+        <h2 className="text-sm font-semibold text-neutral-300 mb-2">Preview</h2>
         <Preview colors={colors} />
       </div>
 
       {/* Contrast Checker */}
       <div>
-        <h2 className="text-sm font-semibold text-gray-300 mb-2">Contrast Analysis</h2>
+        <h2 className="text-sm font-semibold text-neutral-300 mb-2">Contrast Analysis</h2>
         <ContrastChecker colors={colors} />
       </div>
     </div>
