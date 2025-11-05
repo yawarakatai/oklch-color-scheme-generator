@@ -34,6 +34,15 @@ function highlightCode(code: string, _language: SupportedLanguage, colors: Recor
     let remaining = line;
     let key = 0;
 
+    // Preserve leading whitespace for indentation
+    const leadingWhitespace = line.match(/^[\s]*/);
+    if (leadingWhitespace && leadingWhitespace[0].length > 0) {
+      highlightedLine.push(
+        <span key={key++} style={{ whiteSpace: 'pre' }}>{leadingWhitespace[0]}</span>
+      );
+      remaining = remaining.slice(leadingWhitespace[0].length);
+    }
+
     while (remaining.length > 0) {
       let matched = false;
 
@@ -142,7 +151,7 @@ function highlightCode(code: string, _language: SupportedLanguage, colors: Recor
     }
 
     return (
-      <div key={lineIndex}>
+      <div key={lineIndex} style={{ whiteSpace: 'pre-wrap' }}>
         <span className="inline-block w-12 text-right pr-4 select-none" style={{ color: colors.base03 }}>
           {lineIndex + 1}
         </span>
