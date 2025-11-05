@@ -43,21 +43,21 @@ export function ColorSlider({ colorKey, color, onChange, label, initialColor }: 
   };
 
   return (
-    <div className="mb-2 bg-gray-800 rounded-lg">
+    <div className="mb-2 bg-neutral-800 rounded-lg">
       {/* Color swatch header - clickable */}
       <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className="w-full p-3 flex items-center gap-3 hover:bg-gray-750 transition-colors rounded-lg"
+        className="w-full p-3 flex items-center gap-3 hover:bg-neutral-750 transition-colors rounded-lg"
       >
         <div
-          className="w-12 h-12 rounded border-2 border-gray-600 flex-shrink-0"
+          className="w-12 h-12 rounded border-2 border-neutral-600 flex-shrink-0"
           style={{ backgroundColor: hexColor }}
         />
         <div className="flex-1 text-left">
-          <div className="font-mono text-xs font-semibold text-gray-200">{label}</div>
-          <div className="font-mono text-xs text-gray-400">{hexColor}</div>
+          <div className="font-mono text-xs font-semibold text-neutral-200">{label}</div>
+          <div className="font-mono text-xs text-neutral-400">{hexColor}</div>
         </div>
-        <div className="text-gray-400">
+        <div className="text-neutral-400">
           {isExpanded ? '▼' : '▶'}
         </div>
       </button>
@@ -66,13 +66,13 @@ export function ColorSlider({ colorKey, color, onChange, label, initialColor }: 
       {isExpanded && (
         <div className="px-3 pb-3 space-y-2">
           <div>
-            <div className="flex items-center justify-between text-xs text-gray-400 mb-1">
+            <div className="flex items-center justify-between text-xs text-neutral-400 mb-1">
               <span>H (Hue)</span>
               <div className="flex items-center gap-2">
                 <span className="font-mono">{Math.round(color.h)}°</span>
                 <button
                   onClick={resetHue}
-                  className="text-xs px-2 py-0.5 bg-gray-700 hover:bg-gray-600 rounded transition-colors"
+                  className="text-xs px-2 py-0.5 bg-neutral-700 hover:bg-neutral-600 rounded transition-colors"
                   title="Reset to initial value"
                 >
                   ↺
@@ -86,18 +86,18 @@ export function ColorSlider({ colorKey, color, onChange, label, initialColor }: 
               step="1"
               value={color.h}
               onChange={handleHueChange}
-              className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer slider-hue"
+              className="w-full h-2 bg-neutral-700 rounded-lg appearance-none cursor-pointer slider-hue"
             />
           </div>
 
           <div>
-            <div className="flex items-center justify-between text-xs text-gray-400 mb-1">
+            <div className="flex items-center justify-between text-xs text-neutral-400 mb-1">
               <span>C (Chroma)</span>
               <div className="flex items-center gap-2">
                 <span className="font-mono">{color.c.toFixed(2)}</span>
                 <button
                   onClick={resetChroma}
-                  className="text-xs px-2 py-0.5 bg-gray-700 hover:bg-gray-600 rounded transition-colors"
+                  className="text-xs px-2 py-0.5 bg-neutral-700 hover:bg-neutral-600 rounded transition-colors"
                   title="Reset to initial value"
                 >
                   ↺
@@ -111,18 +111,18 @@ export function ColorSlider({ colorKey, color, onChange, label, initialColor }: 
               step="0.01"
               value={color.c}
               onChange={handleChromaChange}
-              className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
+              className="w-full h-2 bg-neutral-700 rounded-lg appearance-none cursor-pointer"
             />
           </div>
 
           <div>
-            <div className="flex items-center justify-between text-xs text-gray-400 mb-1">
+            <div className="flex items-center justify-between text-xs text-neutral-400 mb-1">
               <span>L (Lightness)</span>
               <div className="flex items-center gap-2">
                 <span className="font-mono">{color.l.toFixed(2)}</span>
                 <button
                   onClick={resetLightness}
-                  className="text-xs px-2 py-0.5 bg-gray-700 hover:bg-gray-600 rounded transition-colors"
+                  className="text-xs px-2 py-0.5 bg-neutral-700 hover:bg-neutral-600 rounded transition-colors"
                   title="Reset to initial value"
                 >
                   ↺
@@ -136,13 +136,13 @@ export function ColorSlider({ colorKey, color, onChange, label, initialColor }: 
               step="0.01"
               value={color.l}
               onChange={handleLightnessChange}
-              className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
+              className="w-full h-2 bg-neutral-700 rounded-lg appearance-none cursor-pointer"
             />
           </div>
 
           <button
             onClick={resetAll}
-            className="w-full mt-2 px-3 py-1.5 text-xs bg-gray-700 hover:bg-gray-600 text-gray-200 rounded transition-colors"
+            className="w-full mt-2 px-3 py-1.5 text-xs bg-neutral-700 hover:bg-neutral-600 text-neutral-200 rounded transition-colors"
           >
             Reset All
           </button>

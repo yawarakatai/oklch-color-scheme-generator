@@ -47,6 +47,7 @@ export interface AppState {
   mode: GenerationMode;
   colors: ColorScheme;
   globalFilters: GlobalFilters;
+  filtersEnabled: boolean;
   metadata: SchemeMetadata;
 }
 
