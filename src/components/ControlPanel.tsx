@@ -11,6 +11,8 @@ interface ControlPanelProps {
   onColorChange: (colorKey: BaseColorKey, color: OKLCHColor) => void;
   onGlobalFiltersChange: (filters: GlobalFilters) => void;
   onFiltersEnabledChange: (enabled: boolean) => void;
+  onRandomize: () => void;
+  onReset: () => void;
 }
 
 const MODE_DESCRIPTIONS: Record<GenerationMode, string> = {
@@ -49,6 +51,8 @@ export function ControlPanel({
   onColorChange,
   onGlobalFiltersChange,
   onFiltersEnabledChange,
+  onRandomize,
+  onReset,
 }: ControlPanelProps) {
   const resetFilters = () => {
     onGlobalFiltersChange(defaultGlobalFilters);
@@ -80,6 +84,26 @@ export function ControlPanel({
         <p className="mt-2 text-xs text-neutral-400">
           {MODE_DESCRIPTIONS[mode]}
         </p>
+
+        {/* Action buttons */}
+        <div className="flex gap-2 mt-3">
+          <button
+            onClick={onRandomize}
+            className="flex-1 px-3 py-2 text-xs bg-purple-600 hover:bg-purple-700 text-white rounded font-medium transition-colors"
+          >
+            🎲 Randomize All
+          </button>
+          <button
+            onClick={() => {
+              if (window.confirm('Reset all colors to default? This will clear all your changes.')) {
+                onReset();
+              }
+            }}
+            className="flex-1 px-3 py-2 text-xs bg-red-600 hover:bg-red-700 text-white rounded font-medium transition-colors"
+          >
+            ↺ Reset All
+          </button>
+        </div>
       </div>
 
       {/* Global Filters with Toggle */}

@@ -380,7 +380,7 @@ export function Preview({ colors }: PreviewProps) {
       </div>
 
       {/* Content */}
-      <div className="p-4 overflow-auto font-mono text-sm" style={{ maxHeight: '500px' }}>
+      <div className="p-3 overflow-auto font-mono text-sm" style={{ maxHeight: '70vh' }}>
         {activeTab === 'terminal' ? (
           <TerminalContent colors={colors} />
         ) : (
