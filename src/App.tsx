@@ -4,8 +4,9 @@ import { ControlPanel } from './components/ControlPanel';
 import { PreviewPanel } from './components/PreviewPanel';
 import { loadStateFromURL, updateURLHash } from './lib/urlState';
 import { schemeToHex, applyFiltersToScheme } from './lib/colors';
-import { generateMonochromatic, generateAnalogous, generateComplementary, generateTriadic } from './lib/generators';
+import { generateMonochromatic, generateAnalogous, generateComplementary, generateTriadic, generateRandomScheme } from './lib/generators';
 import { exportAndDownload, copyToClipboard, generateShareURL } from './lib/export';
+import { defaultColorScheme, defaultGlobalFilters as defaultFiltersImport } from './data/defaultScheme';
 
 function App() {
   // Load initial state from URL or use defaults
@@ -103,6 +104,26 @@ function App() {
     }
   }, []);
 
+  // Handle randomize
+  const handleRandomize = useCallback(() => {
+    setState((prev) => ({
+      ...prev,
+      mode: 'manual',
+      colors: generateRandomScheme(),
+    }));
+  }, []);
+
+  // Handle reset
+  const handleReset = useCallback(() => {
+    setState((prev) => ({
+      ...prev,
+      mode: 'manual',
+      colors: defaultColorScheme,
+      globalFilters: defaultFiltersImport,
+      filtersEnabled: true,
+    }));
+  }, []);
+
   // Apply global filters to colors and convert to hex
   const displayColors = useMemo(() => {
     // Only apply filters if they are enabled
@@ -115,10 +136,10 @@ function App() {
   return (
     <div className="min-h-screen bg-neutral-900 text-neutral-100">
       {/* Header with Export */}
-      <header className="bg-neutral-800 border-b border-neutral-700 px-6 py-3">
+      <header className="bg-neutral-800 border-b border-neutral-700 px-4 py-2">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-xl font-bold text-neutral-100">OKLCH Color Scheme Generator</h1>
+            <h1 className="text-lg font-bold text-neutral-100">OKLCH Color Scheme Generator</h1>
             <p className="text-xs text-neutral-400 mt-0.5">
               Create beautiful color schemes for Linux ricing using OKLCH color space
             </p>
@@ -156,9 +177,9 @@ function App() {
         </div>
       </header>
 
-      {/* Main content with max-width constraint */}
-      <div className="mx-auto" style={{ maxWidth: '50%', minWidth: '1200px' }}>
-        <div className="flex" style={{ height: 'calc(100vh - 70px)' }}>
+      {/* Main content with responsive max-width constraint */}
+      <div className="mx-auto w-[95%] lg:w-[90%] xl:max-w-[1600px]">
+        <div className="flex" style={{ height: 'calc(100vh - 58px)' }}>
           {/* Control Panel (Left) - 40% */}
           <div className="w-2/5 border-r border-neutral-700 overflow-hidden">
             <ControlPanel
@@ -170,6 +191,8 @@ function App() {
               onColorChange={handleColorChange}
               onGlobalFiltersChange={handleGlobalFiltersChange}
               onFiltersEnabledChange={handleFiltersEnabledChange}
+              onRandomize={handleRandomize}
+              onReset={handleReset}
             />
           </div>
 

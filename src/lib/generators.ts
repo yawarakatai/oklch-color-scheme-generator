@@ -142,3 +142,36 @@ export function generateGradient(
 
   return colors;
 }
+
+/**
+ * Generate a completely random color scheme with valid OKLCH values
+ */
+export function generateRandomScheme(): ColorScheme {
+  // Helper to generate random value in range
+  const random = (min: number, max: number) => Math.random() * (max - min) + min;
+
+  // Random base hue for some coherence
+  const baseHue = random(0, 360);
+
+  return {
+    // Backgrounds (dark to light with low chroma)
+    base00: validateColor({ h: baseHue + random(-30, 30), c: random(0.01, 0.05), l: random(0.10, 0.18) }),
+    base01: validateColor({ h: baseHue + random(-30, 30), c: random(0.01, 0.05), l: random(0.18, 0.25) }),
+    base02: validateColor({ h: baseHue + random(-30, 30), c: random(0.01, 0.06), l: random(0.22, 0.30) }),
+    base03: validateColor({ h: baseHue + random(-30, 30), c: random(0.02, 0.08), l: random(0.35, 0.45) }),
+    base04: validateColor({ h: baseHue + random(-30, 30), c: random(0.02, 0.08), l: random(0.55, 0.65) }),
+    base05: validateColor({ h: baseHue + random(-30, 30), c: random(0.01, 0.06), l: random(0.70, 0.80) }),
+    base06: validateColor({ h: baseHue + random(-30, 30), c: random(0.01, 0.04), l: random(0.82, 0.90) }),
+    base07: validateColor({ h: baseHue + random(-30, 30), c: random(0.01, 0.03), l: random(0.92, 0.98) }),
+
+    // Accent colors (more saturated, varied hues)
+    base08: validateColor({ h: random(0, 360), c: random(0.08, 0.20), l: random(0.55, 0.65) }), // Red
+    base09: validateColor({ h: random(0, 360), c: random(0.08, 0.18), l: random(0.60, 0.70) }), // Orange
+    base0A: validateColor({ h: random(0, 360), c: random(0.08, 0.18), l: random(0.65, 0.75) }), // Yellow
+    base0B: validateColor({ h: random(0, 360), c: random(0.08, 0.18), l: random(0.60, 0.70) }), // Green
+    base0C: validateColor({ h: random(0, 360), c: random(0.08, 0.18), l: random(0.62, 0.72) }), // Cyan
+    base0D: validateColor({ h: random(0, 360), c: random(0.08, 0.20), l: random(0.57, 0.67) }), // Blue
+    base0E: validateColor({ h: random(0, 360), c: random(0.08, 0.18), l: random(0.62, 0.72) }), // Magenta
+    base0F: validateColor({ h: random(0, 360), c: random(0.08, 0.16), l: random(0.50, 0.60) }), // Brown
+  };
+}
