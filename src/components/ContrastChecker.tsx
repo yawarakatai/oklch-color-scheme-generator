@@ -28,8 +28,8 @@ export function ContrastChecker({ colors }: ContrastCheckerProps) {
       });
     }
 
-    // Sort by ratio (descending)
-    return results.sort((a, b) => b.ratio - a.ratio);
+    // Keep original order (base03, base04, base05, ...)
+    return results;
   }, [colors]);
 
   const getStatusIcon = (result: ContrastResult) => {

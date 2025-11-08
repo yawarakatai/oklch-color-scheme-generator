@@ -343,9 +343,10 @@ function TerminalContent({ colors }: { colors: Record<string, string> }) {
 }
 
 export function Preview({ colors }: PreviewProps) {
-  const [activeTab, setActiveTab] = useState<PreviewTab>('cpp');
+  const [activeTab, setActiveTab] = useState<PreviewTab>('terminal');
 
   const tabs: { value: PreviewTab; label: string }[] = [
+    { value: 'terminal', label: 'Terminal' },
     { value: 'cpp', label: 'C++' },
     { value: 'html', label: 'HTML/CSS' },
     { value: 'javascript', label: 'TypeScript' },
@@ -353,7 +354,6 @@ export function Preview({ colors }: PreviewProps) {
     { value: 'rust', label: 'Rust' },
     { value: 'go', label: 'Go' },
     { value: 'nix', label: 'Nix' },
-    { value: 'terminal', label: 'Terminal' },
   ];
 
   return (
