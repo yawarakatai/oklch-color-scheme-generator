@@ -13,9 +13,9 @@ export function oklchToHex(color: OKLCHColor): string {
     h: normalizeHue(color.h),
   };
 
-  // Use CSS gamut mapping algorithm for better results
+  // Use gamut mapping to convert out-of-gamut colors to displayable RGB
   // This preserves hue better than simple chroma clamping
-  const gamutMapper = toGamut('rgb', 'css');
+  const gamutMapper = toGamut('rgb', 'oklch');
   const mappedColor = gamutMapper(oklchColor);
 
   // Convert to hex, fallback to black if conversion fails
