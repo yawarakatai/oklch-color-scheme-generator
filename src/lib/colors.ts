@@ -1,9 +1,9 @@
 // Color operations library using culori for OKLCH color space
-import { formatHex, oklch, wcagContrast, Oklch, clampChroma } from 'culori';
+import { formatHex, oklch, wcagContrast, Oklch, toGamut, displayable } from 'culori';
 import type { OKLCHColor, ColorScheme, GlobalFilters } from '../types/scheme';
 
 /**
- * Convert OKLCH color to hex string
+ * Convert OKLCH color to hex string with proper gamut mapping
  */
 export function oklchToHex(color: OKLCHColor): string {
   const oklchColor: Oklch = {
@@ -13,16 +13,36 @@ export function oklchToHex(color: OKLCHColor): string {
     h: normalizeHue(color.h),
   };
 
-  // Clamp chroma to displayable range
-  const clamped = clampChroma(oklchColor, 'oklch');
+  // Use CSS gamut mapping algorithm for better results
+  // This preserves hue better than simple chroma clamping
+  const gamutMapper = toGamut('rgb', 'css');
+  const mappedColor = gamutMapper(oklchColor);
 
   // Convert to hex, fallback to black if conversion fails
   try {
-    const hex = formatHex(clamped);
+    const hex = formatHex(mappedColor);
     return hex || '#000000';
   } catch (e) {
     console.warn('Failed to convert OKLCH to hex:', color, e);
     return '#000000';
+  }
+}
+
+/**
+ * Check if an OKLCH color is displayable in sRGB gamut
+ */
+export function isColorDisplayable(color: OKLCHColor): boolean {
+  const oklchColor: Oklch = {
+    mode: 'oklch',
+    l: color.l,
+    c: color.c,
+    h: color.h,
+  };
+
+  try {
+    return displayable(oklchColor);
+  } catch (e) {
+    return false;
   }
 }
 

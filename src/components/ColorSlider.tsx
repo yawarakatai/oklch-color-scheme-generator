@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { OKLCHColor, BaseColorKey } from '../types/scheme';
-import { oklchToHex } from '../lib/colors';
+import { oklchToHex, isColorDisplayable } from '../lib/colors';
 
 interface ColorSliderProps {
   colorKey: BaseColorKey;
@@ -13,6 +13,7 @@ interface ColorSliderProps {
 export function ColorSlider({ colorKey, color, onChange, label, initialColor }: ColorSliderProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const hexColor = oklchToHex(color);
+  const isDisplayable = isColorDisplayable(color);
 
   const handleHueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange(colorKey, { ...color, h: parseFloat(e.target.value) });
@@ -54,8 +55,23 @@ export function ColorSlider({ colorKey, color, onChange, label, initialColor }: 
           style={{ backgroundColor: hexColor }}
         />
         <div className="flex-1 text-left">
-          <div className="font-mono text-xs font-semibold text-neutral-200">{label}</div>
+          <div className="flex items-center gap-2">
+            <span className="font-mono text-xs font-semibold text-neutral-200">{label}</span>
+            {!isDisplayable && (
+              <span
+                className="text-yellow-500 text-xs"
+                title="Color is outside sRGB gamut and has been adjusted"
+              >
+                ⚠
+              </span>
+            )}
+          </div>
           <div className="font-mono text-xs text-neutral-400">{hexColor}</div>
+          {!isDisplayable && (
+            <div className="font-mono text-xs text-yellow-600 mt-0.5">
+              Adjusted to displayable range
+            </div>
+          )}
         </div>
         <div className="text-neutral-400">
           {isExpanded ? '▼' : '▶'}
