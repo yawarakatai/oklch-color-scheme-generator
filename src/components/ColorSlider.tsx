@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { OKLCHColor, BaseColorKey } from '../types/scheme';
-import { oklchToHex, isColorDisplayable } from '../lib/colors';
+import { oklchToHex, isColorDisplayable, hexToOklch } from '../lib/colors';
 
 interface ColorSliderProps {
   colorKey: BaseColorKey;
@@ -12,6 +12,8 @@ interface ColorSliderProps {
 
 export function ColorSlider({ colorKey, color, onChange, label, initialColor }: ColorSliderProps) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [hexInput, setHexInput] = useState('');
+  const [isValidHex, setIsValidHex] = useState(true);
   const hexColor = oklchToHex(color);
   const isDisplayable = isColorDisplayable(color);
 
@@ -41,6 +43,33 @@ export function ColorSlider({ colorKey, color, onChange, label, initialColor }: 
 
   const resetAll = () => {
     onChange(colorKey, initialColor);
+  };
+
+  const handleHexInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setHexInput(value);
+
+    // Validate hex color format
+    const hexRegex = /^#?([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
+    if (hexRegex.test(value)) {
+      setIsValidHex(true);
+      // Normalize to include # prefix
+      const normalizedHex = value.startsWith('#') ? value : `#${value}`;
+      const oklchColor = hexToOklch(normalizedHex);
+      onChange(colorKey, oklchColor);
+    } else {
+      setIsValidHex(value.length === 0); // Empty input is valid, partial input is invalid
+    }
+  };
+
+  const handleHexInputBlur = () => {
+    // Reset to current color on blur if invalid
+    if (!isValidHex && hexInput.length > 0) {
+      setHexInput('');
+      setIsValidHex(true);
+    } else {
+      setHexInput('');
+    }
   };
 
   return (
@@ -154,6 +183,31 @@ export function ColorSlider({ colorKey, color, onChange, label, initialColor }: 
               onChange={handleLightnessChange}
               className="w-full h-2 bg-neutral-700 rounded-lg appearance-none cursor-pointer"
             />
+          </div>
+
+          <div className="mt-3 pt-3 border-t border-neutral-700">
+            <div className="flex items-center justify-between text-xs text-neutral-400 mb-1">
+              <span>Hex Color Code</span>
+              {!isValidHex && hexInput.length > 0 && (
+                <span className="text-red-500">Invalid format</span>
+              )}
+            </div>
+            <input
+              type="text"
+              value={hexInput}
+              onChange={handleHexInputChange}
+              onBlur={handleHexInputBlur}
+              placeholder={hexColor}
+              className={`w-full px-3 py-1.5 text-sm font-mono bg-neutral-700 rounded border-2 transition-colors ${
+                isValidHex
+                  ? 'border-neutral-600 focus:border-blue-500'
+                  : 'border-red-500 focus:border-red-400'
+              } focus:outline-none text-neutral-200`}
+              title="Enter hex color code (e.g., #FF5733 or FF5733)"
+            />
+            <div className="text-xs text-neutral-500 mt-1">
+              Current: <span className="font-mono">{hexColor}</span>
+            </div>
           </div>
 
           <button
